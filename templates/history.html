@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content%}
+    <h2 class="resume_uploaded">Resumes Uploaded</h2>
+    <div class="history">
+        <form method="get">
+            <ul>
+                {% for item in tasks %}
+                <li>
+                    <label>
+                        <span>  {{item}}  </span>
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>  
+    </div> 
+{% endblock %}    

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content%}
+    <h2 class="mt-4">Rephrase sentence utility</h2>
+    <p>Copy and paste sentences from your resume here</p>
+    <form action="/action_page.php">
+        <textarea class="paragraphBox" name="resumePara" rows="4" cols="50" placeholder="enter text here"></textarea><br><br>
+        <input type="submit" value="Submit">
+    </form> 
+{% endblock %}  
