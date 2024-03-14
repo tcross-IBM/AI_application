@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 {% block content%}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <h1 class="mt-4">Upload resume here</h1><br> 
-    <input name="content" type="file"><br><br>
+    <input name="content" type="file" required><br><br>
     <button type="submit">Submit</button>
 </form>
+
+
+
+<script type="text/javascript">
+    let prevLoaded = JSON.parse('{{ value2 | tojson }}');
+    let uploaded = JSON.parse('{{ value | tojson }}');
+    if(uploaded == true && prevLoaded == true){ alert("Please upload a PDF!"); }
+</script>
+
+
 {% endblock %}    
