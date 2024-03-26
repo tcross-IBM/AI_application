@@ -10,11 +10,10 @@ import base64
 #fixed = fix_spelling("Worked as a Full-stack Developer in an Agile environment. Converted batch processes from Java Struts to Java Spring Framework. Worked on front and back-end of GUI application using Struts 2 Framework with languages/technologies including  JSP (Jakarta Server Pages), JavaScript, Java and DB2 SQL. Used user stories to create/modify additional back-end and front-end functionality for both batch processes and GUI application.",max_length=2048)
 
 #file containing sensitive db information (won't be included in GitHub)
-with open('C:\\Users\\7J5720897\\dbConnect.txt', "r") as file:
-    uri = file.read().replace("\n", "")
+#with open('C:\\Users\\7J5720897\\dbConnect.txt', "r") as file:
+#    uri = file.read().replace("\n", "")
 
-print(uri)
-
+uri = "mongodb+srv://Tiffany:y4BMUvlkiC0iMYfY@cluster0.vlbgai7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 #db 
 try:
@@ -85,8 +84,16 @@ def about():
 def history():
     try:
         allResumes = resumes.find()
-        #unencode
-        return render_template('history.html',tasks=list(allResumes))
+
+        #unencrypt pdf 
+        for doc in allResumes:
+            bytes = base64.b64decode(doc["content"])
+
+        #save decoded pdf file to computer
+        with open('file.pdf', 'wb') as f:
+            f.write(bytes)
+
+        #rv = base64.b64decode(allResumes.read() 
+        return render_template('history.html',tasks=list(bytes))
     except Exception as e:
         return "error!"
-
