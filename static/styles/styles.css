@@ -109,22 +109,34 @@ body {
   margin-left: 40%;
 }
 
-.resume_uploaded{
-  background-color: rgb(179, 179, 179);
+.resume-uploaded {
   margin-right: 78%;
   margin-top: 10px;
+  font-size: xx-large;
 }
 
-.history {
-  background-color: rgb(236, 236, 236);
+.pdf-image {
+  width: auto; /* you can use % */
+  height: auto;
+  max-block-size: 100px;
+}
+
+.pdf-list {
+  list-style-type:none;
+}
+
+.column {
   overflow:scroll;
-  margin-right: 20%;
   height: 500px;
-  border: 10px #000;
-
+  border: 1px solid #000;
+  width: 50%;
 }
 
-img {
+.wrapper{
+  display: grid;
+}
+
+.home {
   width: auto; /* you can use % */
   height: auto;
   max-width: 22px;
