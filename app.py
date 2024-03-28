@@ -3,6 +3,8 @@ from pymongo import MongoClient
 from pymongo.mongo_client import MongoClient
 from io import BytesIO
 import base64 
+import os
+from dotenv import load_dotenv
 #from transformers import pipeline
 
 
@@ -10,8 +12,11 @@ import base64
 
 #fixed = fix_spelling("Worked as a Full-stack Developer in an Agile environment. Converted batch processes from Java Struts to Java Spring Framework. Worked on front and back-end of GUI application using Struts 2 Framework with languages/technologies including  JSP (Jakarta Server Pages), JavaScript, Java and DB2 SQL. Used user stories to create/modify additional back-end and front-end functionality for both batch processes and GUI application.",max_length=2048)
 
+load_dotenv()
+DB_HOST = os.environ.get('DB_HOST', "dbConnect.txt")
+
 #file containing sensitive db information (won't be included in GitHub)
-with open('.\dbConnect.txt', "r") as file:
+with open(DB_HOST, "r") as file:
     uri = file.read().replace("\n", "")
 
 
