@@ -4,12 +4,14 @@
     <div class="wrapper">
         <div class="column">
             <form method="get">
-            <ul>
-                {% for key, value in dbResumes.items() %}
-                        <li class="pdf-list">
+            <ul>        
+                {% for key, value in resumeNames.items() %}
+                        <li class="pdf-list" >
                             <label>
+                                <a href="{{ url_for('pdf', key=key ) }}">
                                 <img class="pdf-image" src="../static/pdf.png"><br>
-                                <span>{{key}} </span>
+                                </a>
+                                <span>{{key}}</span>                         
                             </label>
                         </li>
                 {% endfor %} 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import send_from_directory, Response, Flask, render_template, request, url_for, redirect, send_file
 from pymongo import MongoClient
 from pymongo.mongo_client import MongoClient
 from io import BytesIO
@@ -33,6 +33,11 @@ app = Flask(__name__)
 ALLOWED_EXTENSIONS = ['pdf']
 prevLoaded = False
 uploaded = False
+bytes = {} #Empty dictionary
+#decodedFiles = []
+#names = []
+
+
 
 def allowed_file(filename):
     print("filename.rsplit('.', 1)[1].lower() = " + filename.rsplit('.', 1)[1].lower())
@@ -84,28 +89,41 @@ def resume():
 def about():
     return render_template('/about.html')
 
-@app.route('/history', methods=('GET', 'POST'))
+@app.route('/history/', methods=('GET', 'POST'))
 def history():
+
     try:
         allResumes = resumes.find()
-
-        bytes = {} #Empty dictionary
         
         #unencrypt pdf 
         for doc in allResumes:
-            bytes[doc["filename"]] = base64.b64decode(doc["content"])
+            #dictionary object
+            bytes[doc["filename"]] = doc["content"]
+            #create two lists , one of names another of decoded strings
+            #names.append(doc["filename"])
+            #decodedFiles.append(base64.b64decode(doc["content"]))
+            
 
-        #pdf = BytesIO()
-        #pdf.write(bytes)
-        #pdf.seek(0)
-
-        #save decoded pdf file to computer
-        #with open('file.pdf', 'wb') as f:
-            #f = write(bytes)
-
-
-        #rv = base64.b64decode(allResumes.read() 
-        return render_template('history.html', dbResumes=bytes)
+        #need to create delete functionality for pdfs 
+ 
+        return render_template('history.html', resumeNames = bytes)
     except Exception as e:
         return "error!"
 
+@app.route('/pdf/', methods=('GET', 'POST'))
+def pdf():
+    print(request.args.get('key'))
+    if(request.args.get('key')):
+        #takes key argument from html
+        key = request.args.get('key')
+        
+        #decrypts pdf
+        pdf = base64.b64decode(bytes[key])
+
+        """response = make_response(pdf)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] =  \
+            'inline; filename=%s.pdf' % 'yourfilename' """
+
+        return send_file(BytesIO(pdf), 
+                     download_name=key, as_attachment=True)

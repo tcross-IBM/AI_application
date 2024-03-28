@@ -118,19 +118,24 @@ body {
 .pdf-image {
   width: auto; /* you can use % */
   height: auto;
-  max-block-size: 100px;
+  max-block-size: 150px;
 }
 
 .pdf-list {
   list-style-type:none;
+  margin-bottom: 30px;
 }
+
 
 .column {
   overflow:scroll;
-  height: 500px;
+  height: 550px;
   border: 1px solid #000;
-  width: 50%;
+  width: 45%;
+  margin-right: 50%;
+
 }
+
 
 .wrapper{
   display: grid;
