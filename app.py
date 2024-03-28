@@ -11,7 +11,7 @@ import base64
 #fixed = fix_spelling("Worked as a Full-stack Developer in an Agile environment. Converted batch processes from Java Struts to Java Spring Framework. Worked on front and back-end of GUI application using Struts 2 Framework with languages/technologies including  JSP (Jakarta Server Pages), JavaScript, Java and DB2 SQL. Used user stories to create/modify additional back-end and front-end functionality for both batch processes and GUI application.",max_length=2048)
 
 #file containing sensitive db information (won't be included in GitHub)
-with open('C:\\Users\\7J5720897\\dbConnect.txt', "r") as file:
+with open('.\dbConnect.txt', "r") as file:
     uri = file.read().replace("\n", "")
 
 
