@@ -3,16 +3,10 @@ from pymongo import MongoClient
 from pymongo.mongo_client import MongoClient
 from io import BytesIO
 import base64 
-import os
 from dotenv import load_dotenv
-#from transformers import pipeline
+from transformers import pipeline
 
 
-#fix_spelling = pipeline("text2text-generation",model="oliverguhr/spelling-correction-english-base")
-
-#fixed = fix_spelling("Worked as a Full-stack Developer in an Agile environment. Converted batch processes from Java Struts to Java Spring Framework. Worked on front and back-end of GUI application using Struts 2 Framework with languages/technologies including  JSP (Jakarta Server Pages), JavaScript, Java and DB2 SQL. Used user stories to create/modify additional back-end and front-end functionality for both batch processes and GUI application.",max_length=2048)
-
-#load_dotenv()
 #DB_HOST = os.environ.get('DB_HOST', "dbConnect.txt")
 
 #file containing sensitive db information (won't be included in GitHub)
@@ -38,6 +32,8 @@ app = Flask(__name__)
 ALLOWED_EXTENSIONS = ['pdf']
 prevLoaded = False
 uploaded = False
+fixed = ""
+paragraph = ""
 bytes = {} #Empty dictionary
 #decodedFiles = []
 #names = []
@@ -53,9 +49,28 @@ def allowed_file(filename):
 def index():
     return render_template('/index.html')
 
-@app.route('/rephrase')
+@app.route('/rephrase', methods=('GET', 'POST'))
 def rephrase():
-    return render_template('/rephrase.html')
+
+    global fixed
+    global paragraph
+
+    try:
+        paragraph = request.form['resumeParagraph']
+        fix_spelling = pipeline("text2text-generation",model="oliverguhr/spelling-correction-english-base")
+        fixed = str(fix_spelling(str(paragraph),max_length=2048))
+
+        fixed = fixed.removeprefix("[{'generated_text': '")
+        fixed = fixed.removesuffix("'}]")
+        fixed = fixed.removeprefix('[{\'generated_text\': "')
+        fixed = fixed.removesuffix('"}]')
+
+        #next goal: compare old string with new string , put changes in red text and green
+        #    
+    except:
+        print("didn't work")
+
+    return render_template('/rephrase.html', fixed = fixed, paragraph = paragraph)
 
 @app.route('/resume', methods=('GET', 'POST'))
 def resume():

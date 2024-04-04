@@ -2,8 +2,54 @@
 {% block content%}
     <h2 class="mt-4">Rephrase sentence utility</h2>
     <p>Copy and paste sentences from your resume here</p>
-    <form action="/action_page.php">
-        <textarea class="paragraphBox" name="resumePara" rows="4" cols="50" placeholder="enter text here"></textarea><br><br>
+    <form method="post">
+        <textarea class="paragraphBox" name="resumeParagraph" rows="4" cols="50" placeholder="Enter paragraph here.">{{paragraph}}</textarea><br><br>
         <input type="submit" value="Submit">
     </form> 
-{% endblock %}  
+    <br>
+
+    <div id="main"></div>
+
+    
+
+
+    <script type="text/javascript">
+        try{
+            let fixed = JSON.parse('{{ fixed | tojson }}');
+            let paragraph = JSON.parse('{{ paragraph | tojson }}');
+
+            a = fixed.match(/\w+/g);
+            b = paragraph.match(/\w+/g);
+
+
+            let res1 = b.filter(i => !a.includes(i));
+            let res2 = a.filter(i => !b.includes(i));
+
+            //highlight(b, paragraph, res1);
+            highlight(a, "str1", res2);
+
+            function highlight(str, id, res){
+                const div = document.createElement('div');
+                var text = "";
+                for(var i=0; i<str.length; i++){
+                    var hasVal = res.includes(str[i]);
+                    if(hasVal){
+                    text +=" <span class='imp'>"+str[i]+"</span> ";
+                    } else {
+                    text +=" "+str[i]+" ";
+                    }
+                }
+                div.innerHTML = text;
+                document.getElementById("main").appendChild(div);
+                //document.body.appendChild(div);
+            }
+
+        }
+        catch{
+            
+        }
+    </script>
+
+  
+
+{% endblock %} 
