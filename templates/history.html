@@ -8,7 +8,7 @@
                 {% for key, value in resumeNames.items() %}
                         <li class="pdf-list" >
                             <label>   
-                                <a href="{{ url_for('delete', key=key ) }}">
+                                <a href="{{ url_for('delete', key=key ) }}" onclick="return confirm('Are you sure you would like to delete this file?');">
                                 <img class="delete-image" src="../static/delete.png"><br>
                                 </a>
                                 <a href="{{ url_for('pdf', key=key ) }}">

@@ -1,27 +1,40 @@
 {% extends "base.html" %}
-{% block content%}
+{% block content %}
     <h2 class="mt-4">Rephrase sentence utility</h2>
     <p>Copy and paste sentences from your resume here</p>
     <form method="post">
-        <textarea class="paragraphBox" name="resumeParagraph" rows="4" cols="50" placeholder="Enter paragraph here.">{{paragraph}}</textarea><br><br>
-        <input type="submit" value="Submit">
+        <textarea class="paragraphBox" name="resumeParagraph" id="resumeParagraph" rows="4" cols="50" placeholder="Enter sentence here.">{{paragraph}}</textarea><br><br>
+        <input type="submit" onclick="load();" value="Submit">
     </form> 
-    <br>
+    
 
+    <div id="popup" class="loadingPopup" style="display: none">
+        <img src="../static/loadingimage.gif" />
+        <form method="get">
+            <a href="{{ url_for('rephrase') }}" class="cancelHypr">Cancel</a>
+        </form>
+    </div>
+ 
+    <br>
     <div id="main"></div>
 
-    
+
+
+
+
 
 
     <script type="text/javascript">
         try{
+            document.getElementById('main').style.display = "";
+
             let fixed = JSON.parse('{{ fixed | tojson }}');
             let paragraph = JSON.parse('{{ paragraph | tojson }}');
 
             a = fixed.match(/\w+/g);
             b = paragraph.match(/\w+/g);
 
-
+            
             let res1 = b.filter(i => !a.includes(i));
             let res2 = a.filter(i => !b.includes(i));
 
@@ -45,9 +58,20 @@
             }
 
         }
-        catch{
-            
+        catch{}
+
+        function load(){
+            let paragraph = document.getElementById("resumeParagraph").value;
+            let loading = false;
+            if(paragraph == ""){
+                alert("Textbox is empty, please enter a sentence.");
+            }
+            else{
+                document.getElementById('popup').style.display = "";
+                document.getElementById('main').style.display = "none";
+            }
         }
+
     </script>
 
   

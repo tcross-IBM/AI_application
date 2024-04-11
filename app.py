@@ -3,8 +3,10 @@ from pymongo import MongoClient
 from pymongo.mongo_client import MongoClient
 from io import BytesIO
 import base64 
-from dotenv import load_dotenv
 from transformers import pipeline
+
+
+
 
 
 #DB_HOST = os.environ.get('DB_HOST', "dbConnect.txt")
@@ -55,20 +57,26 @@ def rephrase():
     global fixed
     global paragraph
 
-    try:
-        paragraph = request.form['resumeParagraph']
-        fix_spelling = pipeline("text2text-generation",model="oliverguhr/spelling-correction-english-base")
-        fixed = str(fix_spelling(str(paragraph),max_length=2048))
+    if request.method=='GET':
+        fixed=""
 
-        fixed = fixed.removeprefix("[{'generated_text': '")
-        fixed = fixed.removesuffix("'}]")
-        fixed = fixed.removeprefix('[{\'generated_text\': "')
-        fixed = fixed.removesuffix('"}]')
+    if request.method=='POST':
+        try:
+            fixed=""
+            paragraph = request.form['resumeParagraph']
+            fix_spelling = pipeline("text2text-generation",model="oliverguhr/spelling-correction-english-base")
+            fixed = str(fix_spelling(str(paragraph),max_length=2048))
+            
+            #add pop up message for when I delete from db
+            #add loading message when submitting sentence
 
-        #next goal: compare old string with new string , put changes in red text and green
-        #    
-    except:
-        print("didn't work")
+            fixed = fixed.removeprefix("[{'generated_text': '")
+            fixed = fixed.removesuffix("'}]")
+            fixed = fixed.removeprefix('[{\'generated_text\': "')
+            fixed = fixed.removesuffix('"}]')
+
+        except:
+            print("didn't work")
 
     return render_template('/rephrase.html', fixed = fixed, paragraph = paragraph)
 

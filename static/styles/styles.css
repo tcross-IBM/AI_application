@@ -109,6 +109,31 @@ body {
   margin-left: 40%;
 }
 
+.imp {
+  color: red;
+}
+
+.cancelHypr {
+  color: red;
+  text-decoration: underline;
+  position: absolute;
+  padding: 10px 20px;
+  transform: translate(-50%, -50%); 
+  top: 70%;
+  left: 50%; 
+}
+
+.loadingPopup {
+  position:relative;
+  display: inline-block;
+  margin-left: 30%;
+}
+
+.loadingPopup img {
+  display: block;
+  height: auto;
+}
+
 .resume-uploaded {
   margin-right: 78%;
   margin-top: 10px;
